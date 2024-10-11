@@ -1,3 +1,5 @@
+#Actual URL:
+
 @mydb=http://localhost:3000
 @auth_mydb= {{mydb}}/auth
 @auth_mydb_register= {{auth_mydb}}/register
