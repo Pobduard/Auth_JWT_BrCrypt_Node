@@ -7,6 +7,15 @@
 @user_mydb={{mydb}}/users
 
 
+### Register
+POST {{auth_mydb_register}} HTTP/1.1
+Content-Type: application/json
+
+{
+	"email": "test@gmail.com",
+	"password": "pass"
+}
+
 
 
 ### Login
