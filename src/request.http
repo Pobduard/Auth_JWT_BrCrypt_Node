@@ -1,0 +1,73 @@
+@mydb=http://localhost:3000
+@auth_mydb= {{mydb}}/auth
+@auth_mydb_register= {{auth_mydb}}/register
+@auth_mydb_login= {{auth_mydb}}/login
+@user_mydb={{mydb}}/users
+
+
+
+
+### Login
+# @name authHash
+POST {{auth_mydb_login}} HTTP/1.1
+Content-Type: application/json
+
+{
+	"email": "test@gmail.com",
+	"password": "pass"
+}
+
+
+
+### Get All
+GET {{user_mydb}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{authHash.response.body.token}}
+
+
+
+### Get ById
+@id = 1
+GET {{user_mydb}}/{{id}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{authHash.response.body.token}}
+
+
+
+### Create New User
+@email=sergeicode@gmail.com
+@password=soybuenardo
+POST {{user_mydb}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{authHash.response.body.token}}
+
+{
+	"email": "{{email}}",
+	"password": "{{password}}"
+}
+# No sale como debeberia, la Id, ya que los errores tambien la andan autoincrementando, eso es un error ahi
+
+
+
+### Update By Id
+@UserId=5
+@NewEmail=sergeicode@gmail.com
+@NewPassword=password
+PUT {{user_mydb}}/{{UserId}} HTTP/1.1	
+	# Aqui es donde uno pensaria que va '?id={{UserId}}', pero no, como ya tenemos la ruta especificada en el put, 
+	# eso sabe ya que es el id, si no, si hubieran multiples, entonces se manda con el ? y & cuando sea necesario
+	# Basicamente se reemplaza porque el ':id' de la ruta, significa que va directamente ahi la id
+Content-Type: application/json
+Authorization: Bearer {{authHash.response.body.token}}
+
+{
+	"email": "{{NewEmail}}",
+	"password": "{{NewPassword}}"
+}
+
+
+
+### Delete By Id
+@UserId=6
+DELETE {{user_mydb}}/{{UserId}} HTTP/1.1
+Authorization: Bearer {{authHash.response.body.token}}
